@@ -41,32 +41,37 @@ using Graph = vector<vector<Edge>>;
 int main() {
     ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
 
-    ll n,m;cin>>n>>m;
-    vec<bool> a(100, false);
-
-    rep(i,m) {
-        ll aa;
-        cin>>aa;
-        a[aa] = true;
-    }
-    
-    vec<ll> ans;
-    stack<ll> b;
-    srep(i, 1, n){
-        if(a[i]) {
-            b.push(i);
-        }else{
-            ans.push_back(i);
-
-            while(!b.empty()){
-                ans.push_back(b.top());
-                b.pop();
-            }
+    ll n,m;
+    cin>>n>>m;
+    vec<vll> a(m);
+    rep(i,m){
+        ll c;cin>>c;
+        rep(j,c){
+            ll aa;cin>>aa;
+            a[i].push_back(aa);
         }
     }
 
-    srep(i,0,n-1){
-        cout<<ans[i]<<" ";
+    ll ans = 0;
+    for(ll bit = 0; bit < (1<<m); bit++){
+        set<ll> se;
+        rep(i,m){
+            if(bit & (1<<i)){
+                for(auto x : a[i]){
+                    se.insert(x);
+                }
+            }
+        }
+        bool flag = true;
+        srep(i,1,n){
+            if(se.find(i) == se.end()){
+                flag = false;
+            }
+        }
+        if(flag) ans++;
     }
-    cout<<endl;
+
+    cout<<ans<<endl;
+
+
 }

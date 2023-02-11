@@ -42,19 +42,30 @@ int main() {
     ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
 
     ll n,m;cin>>n>>m;
-    vll p(n+1);
-    srep(i,1,n) p[i] = i;
-    vll a(m+1);
-    srep(i,1,m) cin>>a[i];
-    srep(i,1,m){
-        ll b = p[a[i]];
-        ll c = p[a[i]+1];
-        p[a[i]] = c;
-        p[a[i]+1] = b;
+    vec<bool> a(100, false);
+
+    rep(i,m) {
+        ll aa;
+        cin>>aa;
+        a[aa] = true;
+    }
+    
+    vec<ll> ans;
+    stack<ll> b;
+    srep(i, 1, n){
+        if(a[i]) {
+            b.push(i);
+        }else{
+            ans.push_back(i);
+            while(!b.empty()){
+                ans.push_back(b.top());
+                b.pop();
+            }
+        }
     }
 
-    srep(i,1,n){
-        cout<<p[i];
+    srep(i,0,n-1){
+        cout<<ans[i]<<" ";
     }
     cout<<endl;
 }
